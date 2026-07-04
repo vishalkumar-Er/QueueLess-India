@@ -28,3 +28,18 @@
 
   box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
 }
+
+.input-container {
+  position: relative;
+  width: 100%;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+  user-select: none;
+}
