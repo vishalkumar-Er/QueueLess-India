@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes"); // ✅ NEW
 
 const app = express();
 
@@ -17,5 +18,8 @@ app.get("/", (req, res) => {
 
 // Authentication Routes
 app.use("/api/auth", authRoutes);
+
+// User Routes
+app.use("/api/users", userRoutes); // ✅ NEW
 
 module.exports = app;
