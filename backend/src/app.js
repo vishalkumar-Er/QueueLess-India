@@ -2,7 +2,8 @@ const express = require("express");
 const cors = require("cors");
 
 const authRoutes = require("./routes/authRoutes");
-const userRoutes = require("./routes/userRoutes"); // ✅ NEW
+const userRoutes = require("./routes/userRoutes");
+const queueRoutes = require("./routes/queueRoutes");
 
 const app = express();
 
@@ -16,10 +17,9 @@ app.get("/", (req, res) => {
   });
 });
 
-// Authentication Routes
+// Routes
 app.use("/api/auth", authRoutes);
-
-// User Routes
-app.use("/api/users", userRoutes); // ✅ NEW
+app.use("/api/users", userRoutes);
+app.use("/api/queues", queueRoutes);
 
 module.exports = app;
