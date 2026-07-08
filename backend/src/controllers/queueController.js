@@ -42,6 +42,26 @@ const getMyQueues = async (req, res) => {
   }
 };
 
+// ================= Get All Queues (Admin Only) =================
+const getAllQueues = async (req, res) => {
+  try {
+    const queues = await Queue.find().populate(
+      "user",
+      "name email role"
+    );
+
+    res.status(200).json({
+      total: queues.length,
+      queues,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 // ================= Update Queue Status =================
 const updateQueueStatus = async (req, res) => {
   try {
@@ -101,6 +121,7 @@ const deleteQueue = async (req, res) => {
 module.exports = {
   createQueue,
   getMyQueues,
+  getAllQueues,
   updateQueueStatus,
   deleteQueue,
 };
