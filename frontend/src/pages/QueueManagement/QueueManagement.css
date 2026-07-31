@@ -1,0 +1,133 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.queue-management{
+    padding:30px;
+    min-height:100vh;
+    background:#f5f7fb;
+}
+
+.queue-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.queue-header h1{
+    color:#2563eb;
+    font-size:42px;
+}
+
+.back-btn{
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+    font-size:15px;
+    transition:.3s;
+}
+
+.back-btn:hover{
+    background:#1d4ed8;
+}
+
+.queue-table{
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,
+td{
+    padding:15px;
+    border-bottom:1px solid #ddd;
+    text-align:left;
+}
+
+th{
+    background:#2563eb;
+    color:white;
+}
+
+tbody tr:hover{
+    background:#f3f4f6;
+}
+
+/* Status Badge */
+
+.status{
+    padding:6px 12px;
+    border-radius:20px;
+    color:white;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.waiting{
+    background:#f59e0b;
+}
+
+.completed{
+    background:#22c55e;
+}
+
+/* Action Buttons */
+
+.complete-btn{
+    background:#22c55e;
+    color:white;
+    border:none;
+    padding:8px 14px;
+    border-radius:6px;
+    cursor:pointer;
+    margin-right:8px;
+    transition:.3s;
+}
+
+.complete-btn:hover{
+    background:#16a34a;
+}
+
+.delete-btn{
+    background:#ef4444;
+    color:white;
+    border:none;
+    padding:8px 14px;
+    border-radius:6px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.delete-btn:hover{
+    background:#dc2626;
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+    .queue-header{
+        flex-direction:column;
+        gap:20px;
+        align-items:flex-start;
+    }
+
+    table{
+        display:block;
+        overflow-x:auto;
+    }
+
+}

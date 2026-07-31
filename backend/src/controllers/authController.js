@@ -4,6 +4,9 @@ const User = require("../models/User");
 
 // ================= Register User =================
 const registerUser = async (req, res) => {
+
+  console.log("Register Request Body:", req.body);
+
   try {
     const { name, email, password } = req.body;
 
@@ -36,9 +39,15 @@ const registerUser = async (req, res) => {
     });
 
   } catch (error) {
+
+    console.log("========== REGISTER ERROR ==========");
+    console.error(error);
+    console.log("====================================");
+
     res.status(500).json({
       message: error.message,
     });
+
   }
 };
 
@@ -88,6 +97,8 @@ const loginUser = async (req, res) => {
     });
 
   } catch (error) {
+    console.error(error);
+
     res.status(500).json({
       message: error.message,
     });

@@ -10,6 +10,7 @@ const {
   updateQueueStatus,
   deleteQueue,
   getQueuePosition,
+  getEstimatedTime,
 } = require("../controllers/queueController");
 
 // ================= Create Queue =================
@@ -26,6 +27,9 @@ router.put("/:id", protect, admin, updateQueueStatus);
 
 // ================= Get Queue Position =================
 router.get("/position/:id", protect, getQueuePosition);
+
+// ================= Get Estimated Waiting Time =================
+router.get("/estimated-time/:id", protect, getEstimatedTime);
 
 // ================= Delete Queue (Admin Only) =================
 router.delete("/:id", protect, admin, deleteQueue);

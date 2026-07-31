@@ -181,6 +181,42 @@ const getQueuePosition = async (req, res) => {
   }
 };
 
+// ================= Estimated Waiting Time =================
+const getEstimatedTime = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const queue = await Queue.findById(id);
+
+    if (!queue) {
+      return res.status(404).json({
+        message: "Queue Not Found",
+      });
+    }
+
+    const peopleAhead = await Queue.countDocuments({
+      department: queue.department,
+      status: "Waiting",
+      tokenNumber: { $lt: queue.tokenNumber },
+    });
+
+    const estimatedTime = peopleAhead * 5;
+
+    res.status(200).json({
+      department: queue.department,
+      tokenNumber: queue.tokenNumber,
+      status: queue.status,
+      peopleAhead,
+      estimatedTime: `${estimatedTime} Minutes`,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   createQueue,
   getMyQueues,
@@ -188,4 +224,5 @@ module.exports = {
   updateQueueStatus,
   deleteQueue,
   getQueuePosition,
+  getEstimatedTime,
 };

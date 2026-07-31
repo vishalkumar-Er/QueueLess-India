@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Queue = require("../models/Queue");
 
+// ================= Dashboard Stats =================
 const getDashboardStats = async (req, res) => {
   try {
     const totalUsers = await User.countDocuments();
@@ -19,13 +20,57 @@ const getDashboardStats = async (req, res) => {
       status: "Cancelled",
     });
 
+    // ================= Today's Queues =================
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const todayQueues = await Queue.countDocuments({
+      createdAt: { $gte: today },
+    });
+
+    // ================= Today's Completed Queues =================
+    const todayCompletedQueues = await Queue.countDocuments({
+      status: "Completed",
+      createdAt: { $gte: today },
+    });
+
+    // ================= Department Wise Analytics =================
+    const departmentStats = await Queue.aggregate([
+      {
+        $group: {
+          _id: "$department",
+          total: { $sum: 1 },
+        },
+      },
+    ]);
+
     res.status(200).json({
       totalUsers,
       totalQueues,
       waitingQueues,
       completedQueues,
       cancelledQueues,
+      todayQueues,
+      todayCompletedQueues,
+      departmentStats,
     });
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// ================= Recent Queues =================
+const getRecentQueues = async (req, res) => {
+  try {
+    const queues = await Queue.find()
+      .populate("user", "name email")
+      .sort({ createdAt: -1 })
+      .limit(5);
+
+    res.status(200).json(queues);
 
   } catch (error) {
     res.status(500).json({
@@ -36,4 +81,5 @@ const getDashboardStats = async (req, res) => {
 
 module.exports = {
   getDashboardStats,
+  getRecentQueues,
 };
