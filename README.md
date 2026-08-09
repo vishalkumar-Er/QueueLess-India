@@ -1,49 +1,154 @@
-# QueueLess India
+# QueueLess India 🇮🇳
 
 ## 📌 Project Overview
 
-QueueLess India is a smart digital queue management platform.
+QueueLess India is a smart digital queue management platform designed to reduce
+waiting time and eliminate long physical queues.
 
-The goal of this project is to reduce waiting time in hospitals, banks, salons, temples, government offices and other public places by providing a real-time virtual queue system.
+The platform allows users to book a virtual queue token, track their queue
+status in real time, and check their position without waiting physically at
+the service location.
 
-Users can book their token online, track live queue status, receive notifications and visit only when their turn is near.
+Administrators can manage queues, call the next token, update queue status,
+and monitor queue activity through an admin dashboard.
 
-This project is being developed as a production-level full-stack application.
+The project is being developed as a full-stack web application.
 
 ---
 
 ## 🎯 Objectives
 
-- Reduce waiting time
+- Reduce waiting time for users
 - Eliminate long physical queues
-- Improve customer experience
-- Help organizations manage crowd efficiently
+- Provide real-time queue tracking
+- Allow users to book virtual queue tokens
+- Help organizations manage queues efficiently
+- Provide administrators with an easy queue management system
+- Improve overall user experience
 
 ---
 
-## 🚀 Tech Stack
+## 🚀 Features
 
-Frontend
-- React Native
+### 👤 User Features
+
+- User Registration and Login
+- Secure Authentication
+- Book a Queue
+- Select Department
+- Generate Queue Token
+- View Current Queue
+- Track People Ahead
+- View Estimated Waiting Time
+- View Queue Status
+- View Queue History
+- User Dashboard
+- Responsive UI
+- AI/Query Chatbot
+
+### 👨‍💼 Admin Features
+
+- Admin Login
+- Admin Dashboard
+- View Total Users
+- View Total Queues
+- View Waiting Queues
+- View Completed Queues
+- View Recent Queues
+- Queue Management
+- Search Queues
+- Filter Queues by Department
+- Call Next Token
+- Complete Queue
+- Skip Queue
+- Cancel Queue
+- Delete Queue
+- Pagination
+- Queue Status Management
+
+### 🤖 Chatbot
+
+QueueLess India also includes a chatbot interface that allows users to
+interact with the platform and get answers to supported queries.
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
 - React.js
 - TypeScript
+- React Router
+- CSS
+- Recharts
+- React Toastify
 
-Backend
+### Backend
+
 - Node.js
 - Express.js
+- JavaScript
 
-Database
+### Database
+
 - MongoDB
-- Redis
+- Mongoose
 
-Cloud
-- AWS
+### Authentication
 
-AI
-- Python
+- JWT Authentication
+- Password Hashing
+
+### Additional Technologies
+
+- REST API
+- Nodemailer
+- Git
+- GitHub
 
 ---
 
-## 📅 Project Status
+## 📂 Project Structure
 
-Planning Phase
+```text
+QueueLess India/
+│
+├── backend/
+│   ├── src/
+│   │   ├── controllers/
+│   │   ├── middleware/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   └── utils/
+│   │
+│   ├── package.json
+│   └── ...
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   └── Chatbot/
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── Dashboard/
+│   │   │   ├── QueueManagement/
+│   │   │   ├── UserDashboard/
+│   │   │   ├── BookQueue/
+│   │   │   ├── Login/
+│   │   │   ├── Signup/
+│   │   │   └── Landing/
+│   │   │
+│   │   ├── services/
+│   │   └── routes/
+│   │
+│   └── package.json
+│
+├── database/
+├── admin/
+├── api/
+├── design/
+├── docs/
+├── mobile/
+├── .gitignore
+└── README.md
