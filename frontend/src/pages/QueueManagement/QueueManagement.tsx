@@ -1,9 +1,11 @@
+import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   getAllQueues,
   updateQueueStatus,
   deleteQueue,
+  callNextToken,
 } from "../../services/dashboardService";
 
 import "./QueueManagement.css";
@@ -45,7 +47,7 @@ const data = await getAllQueues(keyword, page);
     try {
       await updateQueueStatus(id, "Completed");
 
-alert("✅ Queue Completed Successfully");
+toast.success("Queue Completed Successfully ✅");
 
 fetchQueues();
     } catch (error) {
@@ -62,12 +64,34 @@ fetchQueues();
 
     try {
       await deleteQueue(id);
-      alert("✅ Queue Deleted Successfully");
+      toast.success("Queue Deleted Successfully 🗑️");
+
+
       fetchQueues();
     } catch (error) {
       console.log(error);
     }
   };
+
+      const handleCallNext = async () => {
+  try {
+    if (department === "All") {
+      toast.error("Please select a department first.");
+      return;
+    }
+
+    await callNextToken(department);
+
+    toast.success("Next Token Called Successfully 🎉");
+
+    fetchQueues();
+  } catch (error: any) {
+    toast.error(
+      error.response?.data?.message ||
+      "No Waiting Queue Found"
+    );
+  }
+};
 
   return (
     <div className="queue-management">
@@ -125,6 +149,15 @@ fetchQueues();
   </select>
 </div>
 
+<div style={{ marginBottom: "20px" }}>
+<button
+  className="call-next-btn"
+  onClick={handleCallNext}
+>
+  ▶ Call Next Token
+</button>
+</div>
+
       <div className="queue-table">
 
         <table>
@@ -162,36 +195,94 @@ fetchQueues();
                   <td>{queue.department}</td>
 
                   <td>
-                    <span
-                      className={
-                        queue.status === "Completed"
-                          ? "status completed"
-                          : "status waiting"
-                      }
-                    >
-                      {queue.status}
-                    </span>
-                  </td>
+  <span
+    className={
+      queue.status === "Completed"
+  ? "status completed"
+  : queue.status === "In Progress"
+  ? "status progress"
+  : queue.status === "Skipped"
+  ? "status skipped"
+  : queue.status === "Cancelled"
+  ? "status cancelled"
+  : "status waiting"
+    }
+  >
+    {queue.status}
+  </span>
+</td>
 
-                  <td>
+<td>
 
-                    {queue.status === "Waiting" && (
-                      <button
-                        className="complete-btn"
-                        onClick={() => handleComplete(queue._id)}
-                      >
-                        Complete
-                      </button>
-                    )}
+  {queue.status === "In Progress" && ( 
+    <>
+      <button
+        className="complete-btn"
+        onClick={() => handleComplete(queue._id)}
+      >
+        Complete
+      </button>
 
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleDelete(queue._id)}
-                    >
-                      Delete
-                    </button>
+      <button
+        className="delete-btn"
+        style={{
+          marginLeft: "10px",
+          background: "#f59e0b",
+        }}
+        onClick={async () => {
+          try {
+            await updateQueueStatus(
+              queue._id,
+              "Skipped"
+            );
 
-                  </td>
+            toast.success("Queue Skipped ⏭️");
+
+            fetchQueues();
+          } catch (error) {
+            console.log(error);
+          }
+        }}
+      >
+        Skip
+      </button>
+
+      <button
+  className="delete-btn"
+  style={{
+    marginLeft: "10px",
+    background: "#ef4444",
+  }}
+  onClick={async () => {
+    try {
+      await updateQueueStatus(
+        queue._id,
+        "Cancelled"
+      );
+
+      toast.success("Queue Cancelled ❌");
+
+      fetchQueues();
+    } catch (error) {
+      console.log(error);
+    }
+  }}
+>
+  Cancel
+</button>
+    </>
+  )}
+
+  <button
+    className="delete-btn"
+    onClick={() => handleDelete(queue._id)}
+  >
+    Delete
+  </button>
+
+</td>
+
+
 
                 </tr>
 

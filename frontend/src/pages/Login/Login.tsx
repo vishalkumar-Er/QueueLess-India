@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 import Logo from "../../components/Logo/Logo";
 import "./Login.css";
 import Input from "../../components/Input/Input";
@@ -7,7 +9,6 @@ import Button from "../../components/Button/Button";
 import { loginUser } from "../../services/authService";
 
 function Login() {
-
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -15,7 +16,6 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-
       const data = await loginUser({
         email,
         password,
@@ -28,17 +28,18 @@ function Login() {
         JSON.stringify(data.user)
       );
 
-      alert("Login Successful ✅");
+      toast.success("Login Successful ✅");
 
-      navigate("/dashboard");
-
+      if (data.user.role === "admin") {
+        navigate("/dashboard");
+      } else {
+        navigate("/user-dashboard");
+      }
     } catch (error: any) {
-
-      alert(
+      toast.error(
         error.response?.data?.message ||
-        "Login Failed"
+          "Login Failed"
       );
-
     }
   };
 
@@ -49,21 +50,19 @@ function Login() {
         <Logo />
 
         <p className="tagline">
-          Skip the Queue, Save Your Time
+          Login to Your QueueLess India Account
         </p>
-
-        <h2>Welcome Back 👋</h2>
 
         <Input
           type="email"
-          placeholder="Enter Email"
+          placeholder="Email Address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
         <Input
           type="password"
-          placeholder="Enter Password"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />

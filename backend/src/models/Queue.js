@@ -13,11 +13,17 @@ const queueSchema = new mongoose.Schema(
       trim: true,
     },
 
-    status: {
-      type: String,
-      enum: ["Waiting", "In Progress", "Completed", "Cancelled"],
-      default: "Waiting",
-    },
+   status: {
+  type: String,
+  enum: [
+    "Waiting",
+    "In Progress",
+    "Completed",
+    "Cancelled",
+    "Skipped",
+  ],
+  default: "Waiting",
+},
 
     user: {
       type: mongoose.Schema.Types.ObjectId,

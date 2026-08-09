@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { registerUser } from "../../services/authService";
 import "./Signup.css";
 
@@ -17,7 +18,7 @@ function Signup() {
 
   const handleSignup = async () => {
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      toast.error("Passwords do not match!");
       return;
     }
 
@@ -28,13 +29,17 @@ function Signup() {
         password,
       });
 
-      alert("Account Created Successfully ✅");
-      navigate("/");
+      toast.success("Account Created Successfully ✅");
+
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
+
     } catch (error: any) {
       console.log("Signup Error:", error);
       console.log("Response:", error.response);
 
-      alert(
+      toast.error(
         error.response?.data?.message || "Signup Failed"
       );
     }

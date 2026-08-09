@@ -42,3 +42,17 @@ export const deleteQueue = async (id: string) => {
 
   return response.data;
 };
+
+// ================= Call Next Token =================
+export const callNextToken = async (
+  department: string
+) => {
+  const response = await API.put(
+    "/queues/call-next",
+    {
+      department,
+    }
+  );
+
+  return response.data;
+};

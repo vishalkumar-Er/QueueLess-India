@@ -6,8 +6,10 @@ const { protect, admin } = require("../middleware/authMiddleware");
 const {
   createQueue,
   getMyQueues,
+  getQueueHistory,
   getAllQueues,
   updateQueueStatus,
+  callNextToken,
   deleteQueue,
   getQueuePosition,
   getEstimatedTime,
@@ -19,8 +21,20 @@ router.post("/", protect, createQueue);
 // ================= Get My Queues =================
 router.get("/my", protect, getMyQueues);
 
+// ================= Get Queue History =================
+router.get("/history", protect, getQueueHistory);
+
 // ================= Get All Queues (Admin Only) =================
 router.get("/", protect, admin, getAllQueues);
+
+// ================= Call Next Token (Admin Only) =================
+// ⚠️ Ye route hamesha "/:id" se pehle rahega
+router.put(
+  "/call-next",
+  protect,
+  admin,
+  callNextToken
+);
 
 // ================= Update Queue Status (Admin Only) =================
 router.put("/:id", protect, admin, updateQueueStatus);

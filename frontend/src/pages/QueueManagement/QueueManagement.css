@@ -1,133 +1,469 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
+/* ================= GLOBAL ================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.queue-management{
-    padding:30px;
-    min-height:100vh;
-    background:#f5f7fb;
+/* ================= QUEUE MANAGEMENT ================= */
+
+.queue-management {
+  min-height: 100vh;
+  padding: 35px 7%;
+
+  color: #ffffff;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(37, 99, 235, 0.12),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at bottom left,
+      rgba(124, 58, 237, 0.10),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #020617,
+      #0f172a,
+      #111827
+    );
 }
 
-.queue-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:30px;
+/* ================= HEADER ================= */
+
+.queue-header {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding-bottom: 25px;
+  margin-bottom: 25px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.queue-header h1{
-    color:#2563eb;
-    font-size:42px;
+.queue-header h1 {
+  font-size: 34px;
+  font-weight: 700;
+
+  color: #60a5fa;
 }
 
-.back-btn{
-    padding:10px 20px;
-    border:none;
-    border-radius:8px;
-    background:#2563eb;
-    color:white;
-    cursor:pointer;
-    font-size:15px;
-    transition:.3s;
+/* ================= BACK BUTTON ================= */
+
+.back-btn {
+  padding: 11px 22px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #2563eb;
+  color: #ffffff;
+
+  cursor: pointer;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  transition: all 0.3s ease;
 }
 
-.back-btn:hover{
-    background:#1d4ed8;
+.back-btn:hover {
+  background: #1d4ed8;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(37, 99, 235, 0.25);
 }
 
-.queue-table{
-    background:white;
-    border-radius:12px;
-    padding:20px;
-    box-shadow:0 2px 8px rgba(0,0,0,.1);
+.back-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+
+  transform: none;
+  box-shadow: none;
 }
 
-table{
-    width:100%;
-    border-collapse:collapse;
+/* ================= QUEUE TABLE ================= */
+
+.queue-table {
+  width: 100%;
+
+  background: rgba(31, 41, 55, 0.82);
+
+  border: 1px solid rgba(148, 163, 184, 0.16);
+
+  border-radius: 18px;
+
+  padding: 25px;
+
+  backdrop-filter: blur(12px);
+
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.25);
+
+  overflow-x: auto;
 }
 
-th,
-td{
-    padding:15px;
-    border-bottom:1px solid #ddd;
-    text-align:left;
+/* ================= TABLE ================= */
+
+table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  overflow: hidden;
+
+  border-radius: 12px;
 }
 
-th{
-    background:#2563eb;
-    color:white;
+th {
+  background: #2563eb;
+
+  color: #ffffff;
+
+  padding: 15px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-align: left;
 }
 
-tbody tr:hover{
-    background:#f3f4f6;
+td {
+  padding: 15px;
+
+  color: #cbd5e1;
+
+  font-size: 14px;
+
+  border-bottom:
+    1px solid rgba(148, 163, 184, 0.12);
 }
 
-/* Status Badge */
-
-.status{
-    padding:6px 12px;
-    border-radius:20px;
-    color:white;
-    font-size:13px;
-    font-weight:bold;
+tbody tr {
+  transition: all 0.2s ease;
 }
 
-.waiting{
-    background:#f59e0b;
+tbody tr:hover {
+  background: rgba(37, 99, 235, 0.08);
 }
 
-.completed{
-    background:#22c55e;
+tbody tr:last-child td {
+  border-bottom: none;
 }
 
-/* Action Buttons */
+/* ================= STATUS BADGES ================= */
 
-.complete-btn{
-    background:#22c55e;
-    color:white;
-    border:none;
-    padding:8px 14px;
-    border-radius:6px;
-    cursor:pointer;
-    margin-right:8px;
-    transition:.3s;
+.status {
+  display: inline-block;
+
+  padding: 7px 15px;
+
+  border-radius: 20px;
+
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  letter-spacing: 0.2px;
 }
 
-.complete-btn:hover{
-    background:#16a34a;
+/* Waiting */
+
+.status.waiting {
+  background: #f59e0b;
+  color: #111827;
 }
 
-.delete-btn{
-    background:#ef4444;
-    color:white;
-    border:none;
-    padding:8px 14px;
-    border-radius:6px;
-    cursor:pointer;
-    transition:.3s;
+/* Completed */
+
+.status.completed {
+  background: linear-gradient(
+    135deg,
+    #22c55e,
+    #16a34a
+  );
+
+  color: #ffffff;
+
+  box-shadow:
+    0 4px 12px rgba(34, 197, 94, 0.25);
 }
 
-.delete-btn:hover{
-    background:#dc2626;
+/* In Progress */
+
+.status.progress {
+  background: #3b82f6;
+  color: #ffffff;
 }
 
-/* Responsive */
+/* Skipped */
 
-@media(max-width:768px){
+.status.skipped {
+  background: #f59e0b;
+  color: #111827;
+}
 
-    .queue-header{
-        flex-direction:column;
-        gap:20px;
-        align-items:flex-start;
-    }
+/* Cancelled */
 
-    table{
-        display:block;
-        overflow-x:auto;
-    }
+.status.cancelled {
+  background: #ef4444;
+  color: #ffffff;
+}
 
+/* ================= ACTION BUTTONS ================= */
+
+.complete-btn {
+  background: #22c55e;
+
+  color: #ffffff;
+
+  border: none;
+
+  padding: 8px 14px;
+
+  border-radius: 7px;
+
+  cursor: pointer;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  transition: all 0.25s ease;
+}
+
+.complete-btn:hover {
+  background: #16a34a;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 6px 15px rgba(34, 197, 94, 0.25);
+}
+
+.delete-btn {
+  background: #ef4444;
+
+  color: #ffffff;
+
+  border: none;
+
+  padding: 8px 14px;
+
+  border-radius: 7px;
+
+  cursor: pointer;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  transition: all 0.25s ease;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 6px 15px rgba(239, 68, 68, 0.25);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 900px) {
+
+  .queue-management {
+    padding: 25px 5%;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .queue-management {
+    padding: 20px;
+  }
+
+  .queue-header {
+    flex-direction: column;
+
+    gap: 18px;
+
+    align-items: flex-start;
+  }
+
+  .queue-header h1 {
+    font-size: 28px;
+  }
+
+  .queue-table {
+    padding: 18px;
+  }
+
+  table {
+    min-width: 700px;
+  }
+
+}
+
+@media (max-width: 500px) {
+
+  .queue-header h1 {
+    font-size: 25px;
+  }
+
+  .back-btn {
+    width: 100%;
+  }
+
+}
+
+
+/* ================= FILTERS ================= */
+
+.queue-management input[type="text"] {
+  background: #111827 !important;
+  color: #f8fafc !important;
+
+  border: 1px solid #374151 !important;
+}
+
+.queue-management input[type="text"]::placeholder {
+  color: #64748b;
+}
+
+.queue-management select {
+  background: #111827 !important;
+  color: #f8fafc !important;
+
+  border: 1px solid #374151 !important;
+
+  cursor: pointer;
+}
+
+.queue-management select option {
+  background: #111827;
+  color: #f8fafc;
+}
+
+/* ================= CALL NEXT TOKEN ================= */
+
+.queue-management button:not(.back-btn):not(.complete-btn):not(.delete-btn) {
+  font-family: inherit;
+}
+
+
+/* ================= CALL NEXT TOKEN ================= */
+
+.call-next-btn {
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+  );
+
+  color: #ffffff;
+
+  border: none;
+
+  padding: 11px 20px;
+
+  border-radius: 9px;
+
+  cursor: pointer;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition: all 0.25s ease;
+
+  box-shadow:
+    0 6px 16px rgba(37, 99, 235, 0.20);
+}
+
+.call-next-btn:hover {
+  background: linear-gradient(
+    135deg,
+    #3b82f6,
+    #2563eb
+  );
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(37, 99, 235, 0.30);
+}
+
+
+/* ================= ACTION BUTTON GROUP ================= */
+
+.queue-table td:last-child {
+  white-space: nowrap;
+}
+
+/* Complete */
+
+.complete-btn {
+  background: #22c55e;
+
+  color: #ffffff;
+
+  border: none;
+
+  padding: 8px 14px;
+
+  border-radius: 7px;
+
+  cursor: pointer;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  transition: all 0.25s ease;
+}
+
+.complete-btn:hover {
+  background: #16a34a;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 6px 15px rgba(34, 197, 94, 0.25);
+}
+
+/* Delete / Cancel */
+
+.delete-btn {
+  color: #ffffff;
+
+  border: none;
+
+  padding: 8px 14px;
+
+  border-radius: 7px;
+
+  cursor: pointer;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  transition: all 0.25s ease;
+}
+
+.delete-btn:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 6px 15px rgba(239, 68, 68, 0.25);
 }

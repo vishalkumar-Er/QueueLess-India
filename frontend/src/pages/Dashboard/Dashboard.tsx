@@ -1,5 +1,20 @@
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+} from "recharts";
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   getDashboardStats,
   getRecentQueues,
@@ -17,14 +32,45 @@ interface Queue {
 function Dashboard() {
   const navigate = useNavigate();
 
-  const [stats, setStats] = useState({
-    totalUsers: 0,
-    totalQueues: 0,
-    waitingQueues: 0,
-    completedQueues: 0,
-  });
+const [stats, setStats] = useState<any>({
+  totalUsers: 0,
+  totalQueues: 0,
+  waitingQueues: 0,
+  completedQueues: 0,
+  cancelledQueues: 0,
+  todayQueues: 0,
+  todayCompletedQueues: 0,
+  departmentStats: [],
+});
 
   const [queues, setQueues] = useState<Queue[]>([]);
+
+  const chartData = stats.departmentStats.map((item: any) => ({
+  department: item._id,
+  total: item.total,
+}));
+
+// 👇 Iske niche paste karo
+const pieData = [
+  {
+    name: "Waiting",
+    value: stats.waitingQueues,
+  },
+  {
+    name: "Completed",
+    value: stats.completedQueues,
+  },
+  {
+    name: "Cancelled",
+    value: stats.cancelledQueues,
+  },
+];
+
+const COLORS = [
+  "#f59e0b",
+  "#22c55e",
+  "#ef4444",
+];
 
   useEffect(() => {
     fetchDashboard();
@@ -50,11 +96,15 @@ function Dashboard() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
 
+  toast.success("Logout Successful 👋");
+
+  setTimeout(() => {
     navigate("/");
-  };
+  }, 1000);
+};
 
   return (
     <div className="dashboard">
@@ -112,6 +162,21 @@ function Dashboard() {
           <h1>{stats.completedQueues}</h1>
         </div>
 
+        <div className="card">
+  <h3>Cancelled</h3>
+  <h1>{stats.cancelledQueues}</h1>
+</div>
+
+<div className="card">
+  <h3>Today's Queues</h3>
+  <h1>{stats.todayQueues}</h1>
+</div>
+
+<div className="card">
+  <h3>Today's Completed</h3>
+  <h1>{stats.todayCompletedQueues}</h1>
+</div>
+
       </div>
 
       <div className="recent">
@@ -137,7 +202,17 @@ function Dashboard() {
                 <tr key={queue._id}>
                   <td>{queue.tokenNumber}</td>
                   <td>{queue.department}</td>
-                  <td>{queue.status}</td>
+                  <td>
+  <span
+    className={`status-badge ${
+      queue.status === "Completed"
+        ? "status-completed"
+        : "status-waiting"
+    }`}
+  >
+    {queue.status}
+  </span>
+</td>
                 </tr>
 
               ))
@@ -157,6 +232,51 @@ function Dashboard() {
         </table>
 
       </div>
+
+      <div className="recent" style={{ marginTop: "30px" }}>
+  <h2>Department Analytics</h2>
+
+  <ResponsiveContainer width="100%" height={350}>
+    <BarChart data={chartData}>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="department" />
+      <YAxis />
+      <Tooltip />
+      <Bar
+  dataKey="total"
+  fill="#3b82f6"
+  radius={[8, 8, 0, 0]}
+/>
+    </BarChart>
+  </ResponsiveContainer>
+</div>
+
+<div className="recent" style={{ marginTop: "30px" }}>
+  <h2>Queue Status Analytics</h2>
+
+  <ResponsiveContainer width="100%" height={350}>
+    <PieChart>
+      <Pie
+        data={pieData}
+        dataKey="value"
+        nameKey="name"
+        outerRadius={120}
+        label
+      >
+        {pieData.map((entry, index) => (
+          <Cell
+            key={index}
+            fill={COLORS[index % COLORS.length]}
+          />
+        ))}
+      </Pie>
+
+      <Tooltip />
+      <Legend />
+    </PieChart>
+  </ResponsiveContainer>
+</div>
+
 
     </div>
   );

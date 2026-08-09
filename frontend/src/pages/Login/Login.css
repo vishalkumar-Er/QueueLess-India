@@ -1,130 +1,110 @@
-/* Full Screen Background */
+.login-container{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
 
-.login-container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  background: linear-gradient(
-    135deg,
-    #0f172a,
-    #1e293b,
-    #0f172a
-  );
-
-  padding: 20px;
+    background:linear-gradient(
+        135deg,
+        #0f172a,
+        #1e293b,
+        #0f172a
+    );
 }
 
-/* Login Card */
+.login-card{
 
-.login-card {
-  width: 430px;
-  background: rgba(30, 41, 59, 0.75);
+    width:500px;
 
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+    background:rgba(30,41,59,.75);
 
-  border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
 
-  border-radius: 20px;
+    border-radius:20px;
 
-  padding: 45px;
+    padding:45px;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
 
-  gap: 20px;
+    gap:20px;
 
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    box-shadow:0 20px 50px rgba(0,0,0,.45);
 
-  transition: 0.3s;
+    transition:.3s;
 }
 
-.login-card:hover {
-  transform: translateY(-5px);
+.login-card:hover{
 
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55);
-}
-
-/* Heading */
-
-.login-card h1 {
-  font-size: 56px;
-  color: white;
-  margin: 0;
-}
-
-/* Welcome */
-
-.login-card h2 {
-  color: white;
-  font-size: 24px;
-  margin: 0;
-}
-
-/* Tagline */
-
-.tagline {
-  color: #94a3b8;
-  font-size: 20px;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-/* Forgot Password */
-
-.forgot {
-  color: #60a5fa;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.forgot:hover {
-  color: white;
-}
-
-/* Signup */
-
-.signup {
-  color: #cbd5e1;
-  text-align: center;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.signup:hover {
-  color: white;
-}
-
-/* Mobile Responsive */
-
-@media (max-width: 500px) {
-
-  .login-card {
-
-    width: 100%;
-
-    padding: 30px;
-
-  }
-
-  .login-card h1 {
-
-    font-size: 42px;
-
-  }
+    transform:translateY(-4px);
 
 }
 
-.link {
-  color: #3b82f6;
-  text-decoration: none;
-  font-weight: bold;
-  transition: 0.3s;
+.tagline{
+
+    color:#cbd5e1;
+
+    text-align:center;
+
+    font-size:18px;
+
+    margin-bottom:5px;
+
 }
 
-.link:hover {
-  color: white;
+.forgot{
+
+    color:#60a5fa;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.forgot:hover{
+
+    color:white;
+
+}
+
+.signup{
+
+    color:#cbd5e1;
+
+    text-align:center;
+
+}
+
+.link{
+
+    color:#3b82f6;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+    transition:.3s;
+
+}
+
+.link:hover{
+
+    color:white;
+
+}
+
+@media(max-width:600px){
+
+.login-card{
+
+width:100%;
+
+padding:30px;
+
+}
+
 }

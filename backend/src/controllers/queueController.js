@@ -1,14 +1,27 @@
 const Queue = require("../models/Queue");
+const sendEmail = require("../utils/sendEmail");
 
 // ================= Create Queue =================
 const createQueue = async (req, res) => {
   try {
     const { department } = req.body;
 
+    // Check if user already has an active queue
+    const existingQueue = await Queue.findOne({
+      user: req.user.id,
+      status: "Waiting",
+    });
+
+    if (existingQueue) {
+      return res.status(400).json({
+        message: "You already have an active queue.",
+      });
+    }
+
     // Find Last Token Number
-   const lastQueue = await Queue.findOne({
-  department,
-}).sort({ tokenNumber: -1 });
+    const lastQueue = await Queue.findOne({
+      department,
+    }).sort({ tokenNumber: -1 });
 
     let tokenNumber = 1;
 
@@ -22,6 +35,24 @@ const createQueue = async (req, res) => {
       department,
       user: req.user.id,
     });
+
+    // Send Email Notification
+await queue.populate("user");
+
+await sendEmail(
+  queue.user.email,
+  "Queue Created Successfully 🎉",
+  `
+Hello ${queue.user.name},
+
+Your queue has been created successfully.
+
+Department : ${queue.department}
+Token Number : ${queue.tokenNumber}
+
+Thank you for using QueueLess India.
+`
+);
 
     res.status(201).json({
       message: "Queue Created Successfully",
@@ -38,9 +69,33 @@ const createQueue = async (req, res) => {
 // ================= Get My Queues =================
 const getMyQueues = async (req, res) => {
   try {
+
+    // Sirf active (Waiting) queue lao
     const queues = await Queue.find({
       user: req.user.id,
+      status: "Waiting",
+    }).sort({ createdAt: -1 });
+
+    res.status(200).json({
+      total: queues.length,
+      queues,
     });
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// ================= Get Queue History =================
+const getQueueHistory = async (req, res) => {
+  try {
+
+    const queues = await Queue.find({
+      user: req.user.id,
+      status: "Completed",
+    }).sort({ createdAt: -1 });
 
     res.status(200).json({
       total: queues.length,
@@ -59,6 +114,7 @@ const getAllQueues = async (req, res) => {
   try {
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 5;
+
     const keyword = req.query.search
       ? {
           department: {
@@ -108,8 +164,71 @@ const updateQueueStatus = async (req, res) => {
 
     await queue.save();
 
+    await queue.populate("user");
+
+await sendEmail(
+  queue.user.email,
+  `Queue Status Updated - ${queue.status}`,
+  `
+Hello ${queue.user.name},
+
+Your queue status has been updated.
+
+Department : ${queue.department}
+Token Number : ${queue.tokenNumber}
+New Status : ${queue.status}
+
+Thank you for using QueueLess India.
+`
+);
+
     res.status(200).json({
       message: "Queue Status Updated Successfully",
+      queue,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// ================= Call Next Token =================
+const callNextToken = async (req, res) => {
+  try {
+    const { department } = req.body;
+
+    // Check if any queue is already In Progress
+const activeQueue = await Queue.findOne({
+  department,
+  status: "In Progress",
+});
+
+if (activeQueue) {
+  return res.status(400).json({
+    message: "A queue is already In Progress.",
+  });
+}
+
+    // Sabse chhota waiting token
+    const queue = await Queue.findOne({
+      department,
+      status: "Waiting",
+    }).sort({ tokenNumber: 1 });
+
+    if (!queue) {
+      return res.status(404).json({
+        message: "No Waiting Queue Found",
+      });
+    }
+
+    queue.status = "In Progress";
+
+    await queue.save();
+
+    res.status(200).json({
+      message: "Next Token Called Successfully",
       queue,
     });
 
@@ -151,7 +270,6 @@ const getQueuePosition = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Find Queue
     const queue = await Queue.findById(id);
 
     if (!queue) {
@@ -160,7 +278,6 @@ const getQueuePosition = async (req, res) => {
       });
     }
 
-    // Count Waiting Queues Before Current Token
     const peopleAhead = await Queue.countDocuments({
       department: queue.department,
       status: "Waiting",
@@ -220,8 +337,10 @@ const getEstimatedTime = async (req, res) => {
 module.exports = {
   createQueue,
   getMyQueues,
+  getQueueHistory,
   getAllQueues,
   updateQueueStatus,
+  callNextToken,
   deleteQueue,
   getQueuePosition,
   getEstimatedTime,

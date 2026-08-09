@@ -36,6 +36,41 @@ const protect = (req, res, next) => {
   }
 };
 
+const optionalProtect = (req, res, next) => {
+  try {
+    let token;
+
+    // Check Authorization Header
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
+    ) {
+      token = req.headers.authorization.split(" ")[1];
+    }
+
+    // No token = guest user
+    if (!token) {
+      req.user = null;
+      return next();
+    }
+
+    // Verify token
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET
+    );
+
+    req.user = decoded;
+
+    next();
+
+  } catch (error) {
+    // Invalid/expired token = treat as guest
+    req.user = null;
+    next();
+  }
+};
+
 const admin = (req, res, next) => {
   if (req.user && req.user.role === "admin") {
     next();
@@ -48,5 +83,6 @@ const admin = (req, res, next) => {
 
 module.exports = {
   protect,
+  optionalProtect,
   admin,
 };
