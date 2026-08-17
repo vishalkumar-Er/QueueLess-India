@@ -1,16 +1,18 @@
 # QueueLess India 🇮🇳
 
+## 🌐 Live Demo
+
+🚀 **Live Project:** https://queueless-india-py6g.onrender.com
+
+---
+
 ## 📌 Project Overview
 
-QueueLess India is a smart digital queue management platform designed to reduce
-waiting time and eliminate long physical queues.
+QueueLess India is a smart digital queue management platform designed to reduce waiting time and eliminate long physical queues.
 
-The platform allows users to book a virtual queue token, track their queue
-status in real time, and check their position without waiting physically at
-the service location.
+The platform allows users to book a virtual queue token, track their queue status in real time, and check their position without waiting physically at the service location.
 
-Administrators can manage queues, call the next token, update queue status,
-and monitor queue activity through an admin dashboard.
+Administrators can manage queues, call the next token, update queue status, and monitor queue activity through an admin dashboard.
 
 The project is being developed as a full-stack web application.
 
@@ -68,8 +70,7 @@ The project is being developed as a full-stack web application.
 
 ### 🤖 Chatbot
 
-QueueLess India also includes a chatbot interface that allows users to
-interact with the platform and get answers to supported queries.
+QueueLess India also includes a chatbot interface that allows users to interact with the platform and get answers to supported queries.
 
 ---
 
