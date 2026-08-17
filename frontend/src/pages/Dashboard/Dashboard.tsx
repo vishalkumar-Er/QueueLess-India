@@ -263,7 +263,7 @@ const COLORS = [
         outerRadius={120}
         label
       >
-        {pieData.map((entry, index) => (
+        {pieData.map((_, index) => (
           <Cell
             key={index}
             fill={COLORS[index % COLORS.length]}
