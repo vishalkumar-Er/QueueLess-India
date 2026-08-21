@@ -56,3 +56,9 @@ export const callNextToken = async (
 
   return response.data;
 };
+
+// ================= AI Feedback Insights =================
+export const getFeedbackInsights = async () => {
+  const response = await API.get("/admin/feedback-insights");
+  return response.data;
+};

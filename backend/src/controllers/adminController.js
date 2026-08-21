@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Queue = require("../models/Queue");
+const Feedback = require("../models/Feedback");
 
 // ================= Dashboard Stats =================
 const getDashboardStats = async (req, res) => {
@@ -79,7 +80,53 @@ const getRecentQueues = async (req, res) => {
   }
 };
 
+
+// ================= AI Feedback Insights =================
+const getFeedbackInsights = async (req, res) => {
+  try {
+
+    const total = await Feedback.countDocuments();
+
+    const positive = await Feedback.countDocuments({
+      sentiment: "Positive",
+    });
+
+    const neutral = await Feedback.countDocuments({
+      sentiment: "Neutral",
+    });
+
+    const negative = await Feedback.countDocuments({
+      sentiment: "Negative",
+    });
+let overallSentiment = "No Feedback";
+
+if (total > 0) {
+  overallSentiment = "Neutral";
+
+  if (positive > negative && positive > neutral) {
+    overallSentiment = "Positive";
+  } else if (negative > positive && negative > neutral) {
+    overallSentiment = "Negative";
+  }
+}
+
+    res.status(200).json({
+      total,
+      positive,
+      neutral,
+      negative,
+      overallSentiment,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+
 module.exports = {
   getDashboardStats,
   getRecentQueues,
+  getFeedbackInsights,
 };
