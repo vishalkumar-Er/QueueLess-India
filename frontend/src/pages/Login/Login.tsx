@@ -14,6 +14,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // ================= Login =================
   const handleLogin = async () => {
     try {
       const data = await loginUser({
@@ -43,6 +44,13 @@ function Login() {
     }
   };
 
+  // ================= Forgot Password =================
+  const handleForgotPassword = () => {
+    toast.info(
+      "Please contact the administrator to reset your password."
+    );
+  };
+
   return (
     <div className="login-container">
       <div className="login-card">
@@ -64,7 +72,9 @@ function Login() {
           type="password"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) =>
+            setPassword(e.target.value)
+          }
         />
 
         <Button
@@ -72,13 +82,22 @@ function Login() {
           onClick={handleLogin}
         />
 
-        <p className="forgot">
+        <p
+          className="forgot"
+          onClick={handleForgotPassword}
+          style={{
+            cursor: "pointer",
+          }}
+        >
           Forgot Password?
         </p>
 
         <p className="signup">
           Don't have an account?{" "}
-          <Link to="/signup" className="link">
+          <Link
+            to="/signup"
+            className="link"
+          >
             Create Account
           </Link>
         </p>
